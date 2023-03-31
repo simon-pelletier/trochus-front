@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useCallback } from "react";
 
 import { Layout, Menu, Button } from "antd";
 const { Header } = Layout;
 import { useNavigate } from "react-router-dom";
+
+import SignModal from "../SignModal";
 
 import logo from "../../assets/favicons/favicon-32x32-default.png";
 
@@ -10,6 +12,7 @@ import "./style.scss";
 
 const HeaderComp = () => {
   const navigate = useNavigate();
+  const signModalRef = useRef(null);
 
   const [current, setCurrent] = useState("home");
 
@@ -28,26 +31,21 @@ const HeaderComp = () => {
   }
 
   const items = [
-    getItem("Accueil", "/", "home"),
+    getItem("Trochus", "/", "home"),
     getItem("Le marché", "/market", "market"),
     getItem("Mes objets", "/items", "items", null, null, !isConnected),
     getItem("Mes demandes", "/requests", "requests", null, null, !isConnected),
   ];
 
-  const handleClickMenu = (e) => {
+  const handleClickMenu = useCallback((e) => {
     navigate(e.item.props.path);
     setCurrent(e.key);
-  };
+  }, []);
 
-  const homeClic = () => {
+  const homeClic = useCallback(() => {
     navigate("/");
     setCurrent("home");
-  };
-
-  const handleConnect = () => {
-    //* TODO: Pouvoir se connecter / déconnecter
-    console.log("Connect");
-  };
+  }, []);
 
   return (
     <Header className="header">
@@ -62,9 +60,21 @@ const HeaderComp = () => {
         onClick={handleClickMenu}
         items={items}
       />
-      <Button type="primary" onClick={handleConnect}>
+      <Button
+        type="primary"
+        onClick={() => signModalRef.current.signin()}
+        className="button"
+      >
         Se connecter
       </Button>
+      <Button
+        type="primary"
+        onClick={() => signModalRef.current.signup()}
+        className="button"
+      >
+        S'inscrire
+      </Button>
+      <SignModal ref={signModalRef} />
     </Header>
   );
 };
