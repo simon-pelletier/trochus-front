@@ -9,7 +9,7 @@ module.exports = (dotenv) => {
     new HtmlWebpackPlugin({
       favicon: `${paths.assets}/favicons/favicon-32x32-default.png`,
       template: `${paths.assets}/index.html`,
-      filename: "../../resources/views/index.html",
+      filename: "../index.html",
       publicPath: "/js",
     }),
     new MiniCssExtractPlugin({
@@ -37,7 +37,7 @@ module.exports = (dotenv) => {
           use: [
             {
               loader: MiniCssExtractPlugin.loader,
-              options: { publicPath: "../" },
+              options: { publicPath: "./" },
             },
             {
               loader: "css-loader",

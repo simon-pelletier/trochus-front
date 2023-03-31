@@ -1,0 +1,13 @@
+.main-layout {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    .content-layout {
+        display: flex;
+        flex-direction: column;
+        padding: 24px;
+        overflow-y: auto;
+    }
+}
+
