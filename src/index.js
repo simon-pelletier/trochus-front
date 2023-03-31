@@ -10,7 +10,7 @@ const root = createRoot(container);
 
 const themeData = {
   borderRadius: 6,
-  colorPrimary: "#f0f",
+  colorPrimary: "#1DA57A",
 };
 
 const Application = (

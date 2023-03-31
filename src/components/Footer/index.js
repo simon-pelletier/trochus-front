@@ -1,12 +1,13 @@
 import React from "react";
-import './style.scss';
+import "./style.scss";
 
-const Footer = () =>{
-    return (
-        <div className="footer">
-            FOOTER
-        </div>
-    )
-}
+import { Layout } from "antd";
+const { Footer } = Layout;
 
-export default Footer
+const FooterComp = () => {
+  return (
+    <Footer className="footer">Trochus ©2023 Created by Simon Pelletier</Footer>
+  );
+};
+
+export default FooterComp;
