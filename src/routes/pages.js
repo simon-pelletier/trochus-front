@@ -3,6 +3,7 @@ import React from "react";
 import { MainLayout } from "src/layouts";
 
 import Home from "src/pages/Home";
+import Profil from "src/pages/Profil";
 
 import Unauthorized from "src/pages/Error/Unauthorized";
 import Forbidden from "src/pages/Error/Forbidden";
@@ -14,6 +15,7 @@ export default [
     path: "/",
     children: [
       { path: "", element: <Home /> },
+      { path: "/profil", element: <Profil /> },
       { path: "*", element: <NotFound /> },
     ],
   },
