@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import SignModal from "../SignModal";
 
 import { useSelector, useDispatch } from "react-redux";
-import { registerUser, loginUser } from "../../features/auth/authActions";
+import { logout } from "../../slices/auth";
 
 import logo from "../../assets/favicons/favicon-32x32-default.png";
 
@@ -23,18 +23,18 @@ const HeaderComp = () => {
   const navigate = useNavigate();
   const signModalRef = useRef(null);
 
-  const { loading, userInfo, error, success } = useSelector(
-    (state) => state.auth
-  );
+  const dispatch = useDispatch();
+
+  const { user: currentUser } = useSelector((state) => state.auth);
 
   const [current, setCurrent] = useState("home");
   const [isLogged, setIsLogged] = useState(false);
 
   useEffect(() => {
-    if (userInfo && Object.keys(userInfo).length && success) {
+    if (currentUser) {
       setIsLogged(true);
     }
-  }, [success, userInfo]);
+  }, [currentUser]);
 
   function getItem(label, path, key, icon, children, disabled) {
     return {
@@ -50,9 +50,6 @@ const HeaderComp = () => {
   const items = [
     getItem("Trochus", "/", "home"),
     getItem("Le marché", "/market", "market"),
-    //* Moved to profil menu
-    // getItem("Mes objets", "/items", "items", null, null, !isLogged),
-    // getItem("Mes demandes", "/requests", "requests", null, null, !isLogged),
   ];
 
   const profilMenuItems = [
@@ -61,18 +58,30 @@ const HeaderComp = () => {
       key: "profil",
       icon: <UserOutlined />,
       path: "/profil",
+      onClick: () => {
+        navigate("/profil");
+        setCurrent("profil");
+      },
     },
     {
       label: "Mes objets",
       key: "items",
       icon: <DatabaseOutlined />,
       path: "/items",
+      onClick: () => {
+        navigate("/items");
+        setCurrent("items");
+      },
     },
     {
       label: "Mes demandes",
       key: "requests",
       icon: <HeartOutlined />,
       path: "/requests",
+      onClick: () => {
+        navigate("/requests");
+        setCurrent("requests");
+      },
     },
     {
       type: "divider",
@@ -82,6 +91,11 @@ const HeaderComp = () => {
       key: "logout",
       icon: <DisconnectOutlined />,
       danger: true,
+      onClick: () => {
+        dispatch(logout());
+        setIsLogged(false);
+        navigate("/");
+      },
     },
   ];
 

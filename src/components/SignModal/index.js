@@ -3,18 +3,15 @@ import React, {
   useImperativeHandle,
   useState,
   useCallback,
+  useEffect
 } from "react";
 import { Modal, Checkbox, Form, Input, Button } from "antd";
 import { useSelector, useDispatch } from "react-redux";
-import { registerUser, loginUser } from "../../features/auth/authActions";
+import { login, register } from "../../slices/auth";
 
 import "./style.scss";
 
 const SignModal = forwardRef(function SignModal(props, ref) {
-  const { loading, userInfo, error, success } = useSelector(
-    (state) => state.auth
-  );
-
   const dispatch = useDispatch();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -49,10 +46,10 @@ const SignModal = forwardRef(function SignModal(props, ref) {
 
   const sendForm = useCallback(() => {
     if (modalType === "signup") {
-      dispatch(registerUser(form.getFieldsValue()));
+      dispatch(register(form.getFieldsValue()));
       handleShowModal(false);
     } else {
-      dispatch(loginUser(form.getFieldsValue()));
+      dispatch(login(form.getFieldsValue()));
       handleShowModal(false);
     }
   }, [modalType]);
