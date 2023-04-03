@@ -1,10 +1,19 @@
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
 
-import { Layout, Menu, Button } from "antd";
+import { Layout, Menu, Button, Dropdown, Avatar } from "antd";
 const { Header } = Layout;
+import {
+  UserOutlined,
+  DatabaseOutlined,
+  DisconnectOutlined,
+  HeartOutlined,
+} from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
 import SignModal from "../SignModal";
+
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../slices/auth";
 
 import logo from "../../assets/favicons/favicon-32x32-default.png";
 
@@ -14,10 +23,18 @@ const HeaderComp = () => {
   const navigate = useNavigate();
   const signModalRef = useRef(null);
 
-  const [current, setCurrent] = useState("home");
+  const dispatch = useDispatch();
 
-  //* TODO: A connecter avec le store
-  const isConnected = false;
+  const { user: currentUser } = useSelector((state) => state.auth);
+
+  const [current, setCurrent] = useState("home");
+  const [isLogged, setIsLogged] = useState(false);
+
+  useEffect(() => {
+    if (currentUser) {
+      setIsLogged(true);
+    }
+  }, [currentUser]);
 
   function getItem(label, path, key, icon, children, disabled) {
     return {
@@ -33,8 +50,53 @@ const HeaderComp = () => {
   const items = [
     getItem("Trochus", "/", "home"),
     getItem("Le marché", "/market", "market"),
-    getItem("Mes objets", "/items", "items", null, null, !isConnected),
-    getItem("Mes demandes", "/requests", "requests", null, null, !isConnected),
+  ];
+
+  const profilMenuItems = [
+    {
+      label: "Mon Profil",
+      key: "profil",
+      icon: <UserOutlined />,
+      path: "/profil",
+      onClick: () => {
+        navigate("/profil");
+        setCurrent("profil");
+      },
+    },
+    {
+      label: "Mes objets",
+      key: "items",
+      icon: <DatabaseOutlined />,
+      path: "/items",
+      onClick: () => {
+        navigate("/items");
+        setCurrent("items");
+      },
+    },
+    {
+      label: "Mes demandes",
+      key: "requests",
+      icon: <HeartOutlined />,
+      path: "/requests",
+      onClick: () => {
+        navigate("/requests");
+        setCurrent("requests");
+      },
+    },
+    {
+      type: "divider",
+    },
+    {
+      label: "Se déconnecter",
+      key: "logout",
+      icon: <DisconnectOutlined />,
+      danger: true,
+      onClick: () => {
+        dispatch(logout());
+        setIsLogged(false);
+        navigate("/");
+      },
+    },
   ];
 
   const handleClickMenu = useCallback((e) => {
@@ -60,20 +122,35 @@ const HeaderComp = () => {
         onClick={handleClickMenu}
         items={items}
       />
-      <Button
-        type="primary"
-        onClick={() => signModalRef.current.signin()}
-        className="button"
-      >
-        Se connecter
-      </Button>
-      <Button
-        type="primary"
-        onClick={() => signModalRef.current.signup()}
-        className="button"
-      >
-        S'inscrire
-      </Button>
+      {!isLogged && (
+        <>
+          <Button
+            type="primary"
+            onClick={() => signModalRef.current.signin()}
+            className="button"
+          >
+            Se connecter
+          </Button>
+          <Button
+            type="primary"
+            onClick={() => signModalRef.current.signup()}
+            className="button"
+          >
+            S'inscrire
+          </Button>
+        </>
+      )}
+      {isLogged && (
+        <Dropdown
+          menu={{
+            items: profilMenuItems,
+          }}
+          trigger={["click"]}
+        >
+          <Avatar className="avatar" icon={<UserOutlined />} />
+        </Dropdown>
+      )}
+
       <SignModal ref={signModalRef} />
     </Header>
   );

@@ -3,13 +3,17 @@ import React, {
   useImperativeHandle,
   useState,
   useCallback,
+  useEffect
 } from "react";
 import { Modal, Checkbox, Form, Input, Button } from "antd";
-import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { login, register } from "../../slices/auth";
 
 import "./style.scss";
 
 const SignModal = forwardRef(function SignModal(props, ref) {
+  const dispatch = useDispatch();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState("signup");
 
@@ -42,19 +46,11 @@ const SignModal = forwardRef(function SignModal(props, ref) {
 
   const sendForm = useCallback(() => {
     if (modalType === "signup") {
-      axios
-        .post(`${process.env.API_URL}/auth/signup`, form.getFieldsValue())
-        .then((res) => {
-          console.log("Modal - sendForm", res);
-          handleShowModal(false);
-        });
+      dispatch(register(form.getFieldsValue()));
+      handleShowModal(false);
     } else {
-      axios
-        .post(`${process.env.API_URL}/auth/signin`, form.getFieldsValue())
-        .then((res) => {
-          console.log("Modal - sendForm", res);
-          handleShowModal(false);
-        });
+      dispatch(login(form.getFieldsValue()));
+      handleShowModal(false);
     }
   }, [modalType]);
 
