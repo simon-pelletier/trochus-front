@@ -1,0 +1,42 @@
+.card {
+    height: auto;
+    // height: 310px;
+    width: 300px;
+
+    .description {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .estimation {
+        display: flex;
+        margin-top: 0.5em;
+
+        .logo {
+            width: 20px;
+            height: 20px;
+        }
+
+        .estimation-text {
+            padding-left: 0.5em;
+        }
+    }
+
+    .update-date {
+        margin-top: 0.5em;
+        color: #bbb;
+    }
+
+    .meta {
+        text-overflow: ellipsis;
+    }
+
+    .content {
+        padding-top: 1em
+    }
+
+    .condition-tag::first-letter {
+        text-transform: capitalize;
+    }
+}

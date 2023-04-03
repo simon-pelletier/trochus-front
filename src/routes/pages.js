@@ -4,6 +4,8 @@ import { MainLayout } from "src/layouts";
 
 import Home from "src/pages/Home";
 import Profil from "src/pages/Profil";
+import Items from "src/pages/Items";
+import Market from "src/pages/Market";
 
 import Unauthorized from "src/pages/Error/Unauthorized";
 import Forbidden from "src/pages/Error/Forbidden";
@@ -16,6 +18,8 @@ export default [
     children: [
       { path: "", element: <Home /> },
       { path: "/profil", element: <Profil /> },
+      { path: "/items", element: <Items /> },
+      { path: "/market", element: <Market /> },
       { path: "*", element: <NotFound /> },
     ],
   },
