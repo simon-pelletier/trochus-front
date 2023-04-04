@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Divider, List } from "antd";
+import { Divider, List, Button } from "antd";
 
 import Item from "../../components/Item";
 
 import "./style.scss";
 
 function Items() {
+  const navigate = useNavigate();
   const { user: currentUser } = useSelector((state) => state.auth);
 
   const [userItems, setUserItems] = useState([]);
@@ -29,11 +31,19 @@ function Items() {
     }
   }, [currentUser]);
 
+  const addItem = () => {
+    navigate("/additem");
+  }
+
   return (
-    <div className="items">
+    <div className="page-container">
+      <div className="header">
       <h1>Objets</h1>
+      <Button type="primary" className="add-button" onClick={addItem}>Ajouter un objet</Button>
+      </div>
       {currentUser ? (
         <div className="content">
+          
           <Divider orientation="left">Objets non échangés</Divider>
           <List
             grid={{

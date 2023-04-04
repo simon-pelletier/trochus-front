@@ -17,8 +17,10 @@ function Market() {
   }, []);
 
   return (
-    <div className="market">
-      <h2>Le marché : </h2>
+    <div className="page-container">
+      <div className="header">
+        <h2>Le marché : </h2>
+      </div>
       <div className="content">
         <List
           grid={{

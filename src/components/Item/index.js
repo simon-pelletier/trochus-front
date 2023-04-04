@@ -1,6 +1,10 @@
 import React from "react";
 
 import dayjs from "dayjs";
+const relativeTime = require("dayjs/plugin/relativeTime");
+dayjs.extend(relativeTime);
+require("dayjs/locale/fr");
+
 // import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 import { Card, Tag } from "antd";
 const { Meta } = Card;
@@ -13,23 +17,36 @@ const Item = ({ item }) => {
   console.log("ITEM", item);
   const tagColor = (condition) => {
     switch (condition) {
-      case "neuf":
+      case "new":
         return "green";
-      case "excellent":
+      case "very_good":
         return "cyan";
-      case "bon":
+      case "good":
         return "blue";
-      case "moyen":
+      case "average":
         return "orange";
-      case "mauvais":
+      case "bad":
         return "red";
       default:
-        return "green";
+        return "blue";
     }
   };
 
-  const timestampToDate = (timestamp) => {
-    return dayjs(timestamp).format("DD/MM/YYYY");
+  const tagLabel = (condition) => {
+    switch (condition) {
+      case "new":
+        return "Neuf";
+      case "very_good":
+        return "Excellent état";
+      case "good":
+        return "Bon état";
+      case "average":
+        return "État correct";
+      case "bad":
+        return "Mauvais état";
+      default:
+        return "État inconnu";
+    }
   };
 
   return (
@@ -49,19 +66,18 @@ const Item = ({ item }) => {
         />
       }
     >
-      <Meta
-        title={item.name}
-        className="meta"
-      />
-      <div className="content">
+      <Meta title={item.name} className="meta" />
+      <div className="card-content">
         <Tag color={tagColor(item.condition)} className="condition-tag">
-          {item.condition}
+          {tagLabel(item.condition)}
         </Tag>
         <div className="estimation">
-        <img src={logo} alt="Trochus_logo" className="logo"/><span className="estimation-text">{item.estimation}</span>
+          <img src={logo} alt="Trochus_logo" className="logo" />
+          <span className="estimation-text">{item.estimation}</span>
         </div>
         <div className="update-date">
-          Mis à jour le {dayjs(item.updatedAt).format("DD/MM/YYYY")}
+          Mis à jour il y a{" "}
+          {dayjs().locale("fr").from(dayjs(item.updatedAt), true)}
         </div>
       </div>
     </Card>

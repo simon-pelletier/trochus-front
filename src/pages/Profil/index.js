@@ -16,10 +16,12 @@ function Profil() {
   }, []);
 
   return (
-    <div className="profile">
-      <h1>Profil</h1>
+    <div className="page-container">
+      <div className="header">
+        <h1>Profil</h1>
+      </div>
       {currentUser ? (
-        <div>
+        <div className="content">
           <div className="section">
             <Divider orientation="left">Informations générales</Divider>
             <p>Nom: {currentUser.userInfo.lastname}</p>

@@ -21,3 +21,42 @@ html, body {
     background-color: #1DA57A;
     -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
 }
+
+.page-container {
+    overflow: hidden;
+
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-left: 2em;
+    }
+
+    .content {
+        overflow: scroll;
+        height: calc(100% - 6em);
+        margin-bottom: 2em;
+        padding: 0 2em;
+
+        .ant-spin-container {
+            .ant-row {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    }
+}
+
+.form-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    .ant-form-item {
+        margin-bottom: 0;
+    }
+
+    .button {
+        margin-left: 1em;
+    }
+}

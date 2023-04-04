@@ -7,6 +7,8 @@ import Profil from "src/pages/Profil";
 import Items from "src/pages/Items";
 import Market from "src/pages/Market";
 
+import AddItem from "src/pages/Items/AddItem";
+
 import Unauthorized from "src/pages/Error/Unauthorized";
 import Forbidden from "src/pages/Error/Forbidden";
 import NotFound from "src/pages/Error/NotFound";
@@ -20,6 +22,7 @@ export default [
       { path: "/profil", element: <Profil /> },
       { path: "/items", element: <Items /> },
       { path: "/market", element: <Market /> },
+      { path: "/additem", element: <AddItem /> },
       { path: "*", element: <NotFound /> },
     ],
   },
