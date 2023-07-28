@@ -3,28 +3,49 @@
     // height: 310px;
     width: 300px;
 
+    .card-cover {
+        display: flex;
+        justify-content: center;
+        height: 200px;
+        overflow: hidden;
+        box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+    }
+
     .description {
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
     }
 
-    .estimation {
+    .infos {
         display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 1em;
+
+        .estimation {
+            .estimation-tag {
+                display: flex;
+    
+                .logo {
+                    width: 20px;
+                    height: 20px;
+                }
+        
+                .estimation-text {
+                    padding-left: 0.5em;
+                }
+            }
+        }
+    }
+
+    .categories {
         margin-top: 0.5em;
-
-        .logo {
-            width: 20px;
-            height: 20px;
-        }
-
-        .estimation-text {
-            padding-left: 0.5em;
-        }
     }
 
     .update-date {
         margin-top: 0.5em;
+        font-size: 0.8em;
         color: #bbb;
     }
 

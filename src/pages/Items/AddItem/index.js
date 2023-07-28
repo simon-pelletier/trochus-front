@@ -14,9 +14,11 @@ import {
   Row,
   Col,
   Upload,
-  message
+  message,
 } from "antd";
 const { Dragger } = Upload;
+
+import "./style.scss";
 
 function AddItem() {
   const navigate = useNavigate();
@@ -34,6 +36,8 @@ function AddItem() {
     { label: "Mauvais état", value: "bad" },
   ];
 
+  const formatter = (value) => `${value}%`;
+
   useEffect(() => {
     if (!currentUser) {
       navigate("/login");
@@ -42,7 +46,6 @@ function AddItem() {
 
   useEffect(() => {
     axios.get(`${process.env.API_URL}/categories`).then((res) => {
-      console.log("res.data", res.data);
       setCategories(res.data);
     });
   }, []);
@@ -52,42 +55,74 @@ function AddItem() {
     form.setFieldValue("estimation", newValue);
   };
 
-  // const props = {
-  //   name: 'file',
-  //   multiple: true,
-  //   action: `${process.env.API_URL}/images`,
-  //   onChange(info) {
-  //     const { status } = info.file;
-  //     if (status !== 'uploading') {
-  //       console.log(info.file, info.fileList);
-  //     }
-  //     if (status === 'done') {
-  //       message.success(`${info.file.name} file uploaded successfully.`);
-  //     } else if (status === 'error') {
-  //       message.error(`${info.file.name} file upload failed.`);
-  //     }
-  //   },
-  //   onDrop(e) {
-  //     console.log('Dropped files', e.dataTransfer.files);
-  //   },
-  // };
+  const props = {
+    name: "images",
+    multiple: true,
+    action: (file) => console.log(file),
+    maxCount: 5,
+    beforeUpload(file) {
+      const isJpgOrPng =
+        file.type === "image/jpeg" || file.type === "image/png";
+      if (!isJpgOrPng) {
+        message.error("You can only upload JPG/PNG file!");
+      }
+      return false || isJpgOrPng ? false : Upload.LIST_IGNORE;
+    },
+    onChange(info) {
+      const { status } = info.file;
+      console.log("info.file", status);
+      if (status !== "uploading") {
+        console.log(info.file, info.fileList);
+      }
+      if (status === "done") {
+        message.success(`${info.file.name} file uploaded successfully.`);
+      } else if (status === "error") {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+    onDrop(e) {
+      console.log("Dropped files", e.dataTransfer.files);
+    },
+  };
 
   const sendForm = () => {
+
+    let formData = new FormData();
+
+    if (!form.getFieldValue("image")) {
+      form.setFieldValue("image", []);
+    } else {
+      form.getFieldValue("image").fileList.forEach((image) => {
+        formData.append("images", image.originFileObj);
+      });
+    }
+    
     form
       .validateFields()
       .then((values) => {
         form.resetFields();
-        console.log("values", values);
+        values.categories.forEach((category) => {
+          categories.forEach((categoryItem) => {
+            if (`${categoryItem.id}` === category) {
+              formData.append("categories", categoryItem.id);
+            }
+          });
+        });
+
+        formData.append("name", values.name);
+        formData.append("description", values.description);
+        formData.append("estimation", values.estimation);
+        formData.append("condition", values.condition);
+        formData.append("userId", currentUser.userInfo.id);
+
         axios
-          .post(`${process.env.API_URL}/items`, {
-            name: values.name,
-            description: values.description,
-            // image: values.image,
-            categories: values.categories,
-            estimation: values.estimation,
-            condition: values.condition,
-            userId: currentUser.userInfo.id,
-          })
+          .post(`${process.env.API_URL}/items`, formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+          )
           .then((res) => {
             console.log("res.data", res.data);
             navigate("/items");
@@ -131,7 +166,7 @@ function AddItem() {
             <Input />
           </Form.Item>
 
-          {/* <Form.Item
+          <Form.Item
             label="Image(s) de l'objet"
             name="image"
             rules={[
@@ -141,7 +176,11 @@ function AddItem() {
               },
             ]}
           >
-            <Dragger {...props}>
+            <Dragger
+              {...props}
+              className="upload-list-inline"
+              listType="picture"
+            >
               <p className="ant-upload-drag-icon">
                 <InboxOutlined />
               </p>
@@ -153,7 +192,7 @@ function AddItem() {
                 uploading company data or other banned files.
               </p>
             </Dragger>
-          </Form.Item> */}
+          </Form.Item>
 
           <Form.Item
             label="Catégories de l'objet"
@@ -161,7 +200,8 @@ function AddItem() {
             rules={[
               {
                 required: true,
-                message: "Veuillez saisir une catégorie pour votre objet",
+                message:
+                  "Veuillez saisir une ou des catégorie(s) pour votre objet",
               },
             ]}
           >
@@ -172,7 +212,7 @@ function AddItem() {
               }}
               placeholder="Selectionnez une ou plusieurs catégories"
               options={categories.map((category) => {
-                return { label: category.label, value: category.id };
+                return { label: category.label, value: `${category.id}` };
               })}
             />
           </Form.Item>
@@ -180,6 +220,7 @@ function AddItem() {
           <Form.Item
             label="Etat de l'objet"
             name="condition"
+            initialValue={"new"}
             rules={[
               {
                 required: true,
@@ -191,7 +232,7 @@ function AddItem() {
               style={{
                 width: "100%",
               }}
-              defaultValue={"new"}
+              // defaultValue={"new"}
               placeholder="Selectionnez un état"
               options={conditionOptions}
             />
@@ -224,6 +265,9 @@ function AddItem() {
                   min={1}
                   max={2000}
                   onChange={onChangeEstimation}
+                  tooltip={{
+                    formatter,
+                  }}
                   value={
                     typeof inputValueEstimation === "number"
                       ? inputValueEstimation

@@ -5,7 +5,11 @@ const relativeTime = require("dayjs/plugin/relativeTime");
 dayjs.extend(relativeTime);
 require("dayjs/locale/fr");
 
-// import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
+import {
+  EditOutlined,
+  EllipsisOutlined,
+  SettingOutlined,
+} from "@ant-design/icons";
 import { Card, Tag } from "antd";
 const { Meta } = Card;
 
@@ -13,8 +17,7 @@ import logo from "../../assets/favicons/favicon-32x32-default.png";
 
 import "./style.scss";
 
-const Item = ({ item }) => {
-  console.log("ITEM", item);
+const Item = ({ item, isMarket }) => {
   const tagColor = (condition) => {
     switch (condition) {
       case "new":
@@ -49,31 +52,54 @@ const Item = ({ item }) => {
     }
   };
 
+  const coverPicture = item.Images[0]?.filename
+    ? `${process.env.API_STATIC_URL}/images/${item.Images[0]?.filename}`
+    : `${process.env.API_STATIC_URL}/public/default.jpg`;
+
+  const actions = !isMarket
+    ? [
+        <SettingOutlined key="setting" />,
+        <EditOutlined key="edit" />,
+        <EllipsisOutlined key="ellipsis" />,
+      ]
+    : null;
+
   return (
     <Card
-      actions={
-        [
-          // <SettingOutlined key="setting" />,
-          //   <EditOutlined key="edit" />,
-          //   <EllipsisOutlined key="ellipsis" />,
-        ]
-      }
+      actions={actions}
       className="card"
       cover={
-        <img
-          alt={`${item.name}-image`}
-          src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-        />
+        <div className="card-cover">
+          <img alt={`${item.name}-image`} src={`${coverPicture}`} />
+        </div>
       }
     >
       <Meta title={item.name} className="meta" />
       <div className="card-content">
-        <Tag color={tagColor(item.condition)} className="condition-tag">
-          {tagLabel(item.condition)}
-        </Tag>
-        <div className="estimation">
-          <img src={logo} alt="Trochus_logo" className="logo" />
-          <span className="estimation-text">{item.estimation}</span>
+        <div className="infos">
+          <div className="estimation">
+            <Tag className="estimation-tag">
+              <img src={logo} alt="Trochus_logo" className="logo" />
+              <span className="estimation-text">{item.estimation}</span>
+            </Tag>
+          </div>
+          <div className="user">
+            <Tag color="black" className="user-tag">
+              {item.User?.pseudo}
+            </Tag>
+          </div>
+          <div className="condition">
+            <Tag color={tagColor(item.condition)} className="condition-tag">
+              {tagLabel(item.condition)}
+            </Tag>
+          </div>
+        </div>
+        <div className="categories">
+          {item.Categories?.map((category) => (
+            <Tag color="grey" key={`${category.id}-${item.id}`}>
+              {category?.label}
+            </Tag>
+          ))}
         </div>
         <div className="update-date">
           Mis à jour il y a{" "}

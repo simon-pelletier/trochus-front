@@ -8,7 +8,7 @@ import {
   DisconnectOutlined,
   HeartOutlined,
 } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import SignModal from "../SignModal";
 
@@ -20,6 +20,7 @@ import logo from "../../assets/favicons/favicon-32x32-default.png";
 import "./style.scss";
 
 const HeaderComp = () => {
+  let location = useLocation();
   const navigate = useNavigate();
   const signModalRef = useRef(null);
 
@@ -35,6 +36,14 @@ const HeaderComp = () => {
       setIsLogged(true);
     }
   }, [currentUser]);
+
+  useEffect(() => {
+    setCurrent(
+      location.pathname.substring(1) === ""
+        ? "home"
+        : location.pathname.substring(1)
+    );
+  }, [location]);
 
   function getItem(label, path, key, icon, children, disabled) {
     return {
