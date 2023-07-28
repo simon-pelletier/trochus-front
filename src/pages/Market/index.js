@@ -57,11 +57,11 @@ function Market() {
       });
     } else if (sortValue === "date-asc") {
       sortedItems.sort((a, b) => {
-        return new Date(b.createdAt) - new Date(a.createdAt);
+        return new Date(a.createdAt) - new Date(b.createdAt);
       });
     } else if (sortValue === "date-desc") {
       sortedItems.sort((a, b) => {
-        return new Date(a.createdAt) - new Date(b.createdAt);
+        return new Date(b.createdAt) - new Date(a.createdAt);
       });
     }
     return sortedItems;
@@ -113,7 +113,7 @@ function Market() {
           dataSource={data}
           renderItem={(item) => (
             <List.Item key={item.id}>
-              <Item item={item} />
+              <Item item={item} isMarket={true}/>
             </List.Item>
           )}
         />

@@ -57,7 +57,7 @@ function Items() {
             dataSource={userItems.filter((item) => !item.traded)}
             renderItem={(item) => (
               <List.Item key={item.id}>
-                <Item item={item} />
+                <Item item={item} isMarket={false}/>
               </List.Item>
             )}
           />
