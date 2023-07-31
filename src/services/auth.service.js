@@ -1,10 +1,13 @@
 import axios from "axios";
 
-const register = (username, email, password) => {
+const register = (username, email, password, passwordConfirm, lastname, firstname) => {
   return axios.post(`${process.env.API_URL}/auth/register`, {
     username,
     email,
     password,
+    passwordConfirm,
+    lastname,
+    firstname,
   });
 };
 

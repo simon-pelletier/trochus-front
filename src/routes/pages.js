@@ -9,6 +9,8 @@ import Market from "src/pages/Market";
 
 import AddItem from "src/pages/Items/AddItem";
 
+import EmailConfirmation from "../pages/EmailConfirmation";
+
 import Unauthorized from "src/pages/Error/Unauthorized";
 import Forbidden from "src/pages/Error/Forbidden";
 import NotFound from "src/pages/Error/NotFound";
@@ -19,6 +21,7 @@ export default [
     path: "/",
     children: [
       { path: "", element: <Home /> },
+      { path: "/confirm/:token", element: <EmailConfirmation /> },
       { path: "/profil", element: <Profil /> },
       { path: "/items", element: <Items /> },
       { path: "/market", element: <Market /> },
