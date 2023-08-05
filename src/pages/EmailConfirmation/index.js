@@ -11,10 +11,13 @@ function EmailConfirmation() {
 
   useEffect(() => {
     const confirmEmail = async () => {
-      // Récupération du token en params
       const token = window.location.href.split("/")[4];
 
-      await axios.get(`${process.env.API_URL}/auth/verifyemail/${token}`);
+      await axios.get(`${process.env.API_URL}/auth/verifyemail/${token}`).then(
+        (response) => {
+          console.log("R", response.data);
+        },
+      );
     };
 
     confirmEmail();
@@ -40,24 +43,6 @@ function EmailConfirmation() {
           <p>
             Si vous n'avez pas reçu l'email de confirmation, veuillez{" "}
             <a href="/resend-confirmation-email">cliquer ici</a>.
-          </p>
-
-          <p>
-            Si vous avez besoin d'aide, veuillez{" "}
-
-            <a href="/contact">contacter le support</a>.
-          </p>
-
-          <p>
-            <a href="/logout">Se déconnecter</a>
-          </p>
-
-          <p>
-            <a href="/">Retourner à l'accueil</a>
-          </p>
-
-          <p>
-            <a href="/profile">Retourner au profil</a>
           </p>
         </div>
       ) : null}

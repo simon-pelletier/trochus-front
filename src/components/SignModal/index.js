@@ -99,7 +99,7 @@ const SignModal = forwardRef(function SignModal(props, ref) {
           </Form.Item>
           <Form.Item
             label="Pseudo"
-            name="username"
+            name="pseudo"
             rules={[
               { required: true, message: "Veuillez renseigner votre pseudo" },
             ]}

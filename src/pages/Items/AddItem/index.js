@@ -17,6 +17,7 @@ import {
   message,
 } from "antd";
 const { Dragger } = Upload;
+import trochusPNG from "../../../assets/images/trochus-32.png";
 
 import "./style.scss";
 
@@ -36,7 +37,7 @@ function AddItem() {
     { label: "Mauvais état", value: "bad" },
   ];
 
-  const formatter = (value) => `${value}%`;
+  const formatter = (value) => `${value}`;
 
   useEffect(() => {
     if (!currentUser) {
@@ -244,6 +245,7 @@ function AddItem() {
             rules={[
               {
                 required: true,
+                required: true,
                 message: "Veuillez saisir une valeur pour votre objet",
               },
             ]}
@@ -259,6 +261,7 @@ function AddItem() {
                   value={inputValueEstimation}
                   onChange={onChangeEstimation}
                 />
+                <img src={trochusPNG} alt="trochus" />
               </Col>
               <Col span={21}>
                 <Slider

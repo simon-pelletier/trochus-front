@@ -7,3 +7,12 @@
   .ant-upload-rtl.upload-list-inline .ant-upload-list-item {
     float: right;
   }
+
+  #add-item_estimation {
+    :first-child {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+  }
