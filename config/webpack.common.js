@@ -25,7 +25,7 @@ module.exports = (env, dotenv) => ({
   },
   module: {
     rules: [
-      {
+      /*{
         test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
         type: 'asset/resource',
         generator: {
@@ -38,7 +38,7 @@ module.exports = (env, dotenv) => ({
         generator: {
           filename: 'public/[hash][ext][query]',
         },
-      },
+      },*/
     ],
   },
   output: {

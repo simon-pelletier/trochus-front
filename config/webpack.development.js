@@ -43,6 +43,15 @@ module.exports = (dotenv) => ({
           },
         ],
       },
+      //images
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
+      },
       // Styles
       {
         test: /\.(s?css)$/,
