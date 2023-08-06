@@ -12,19 +12,19 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 import SignModal from "../SignModal";
 
-import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../../slices/auth";
+import { useSelector } from "react-redux";
+import useLogout from "../../hooks/useLogout";
 
 import logo from "../../assets/favicons/favicon-32x32-default.png";
 
 import "./style.scss";
 
 const HeaderComp = () => {
+  const logout = useLogout();
   let location = useLocation();
   const navigate = useNavigate();
   const signModalRef = useRef(null);
 
-  const dispatch = useDispatch();
 
   const { user: currentUser } = useSelector((state) => state.auth);
 
@@ -34,6 +34,8 @@ const HeaderComp = () => {
   useEffect(() => {
     if (currentUser) {
       setIsLogged(true);
+    } else {
+      setIsLogged(false);
     }
   }, [currentUser]);
 
@@ -101,7 +103,7 @@ const HeaderComp = () => {
       icon: <DisconnectOutlined />,
       danger: true,
       onClick: () => {
-        dispatch(logout());
+        logout();
         setIsLogged(false);
         navigate("/");
       },

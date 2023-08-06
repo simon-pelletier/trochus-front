@@ -5,15 +5,18 @@ const getPublicItems = () => {
   return axios.get(`${process.env.API_URL}/items`);
 };
 
+const getPublishedItems = () => {
+
+  return axios
+    .get(`${process.env.API_URL}/items/published`, {
+      headers: authHeader(),
+    });
+};
+
 const getUserItems = (userId) => {
   return axios.get(`${process.env.API_URL}/items/user/${userId}`, {
     headers: authHeader(),
   });
 };
 
-const userService = {
-  getPublicItems,
-  getUserItems,
-};
-
-export default userService;
+export { getPublicItems, getPublishedItems, getUserItems };

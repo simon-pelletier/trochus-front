@@ -71,7 +71,6 @@ function AddItem() {
     },
     onChange(info) {
       const { status } = info.file;
-      console.log("info.file", status);
       if (status !== "uploading") {
         console.log(info.file, info.fileList);
       }
@@ -125,7 +124,6 @@ function AddItem() {
           }
           )
           .then((res) => {
-            console.log("res.data", res.data);
             navigate("/items");
           });
       })

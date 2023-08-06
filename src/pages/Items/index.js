@@ -7,6 +7,8 @@ import { Divider, List, Button } from "antd";
 
 import Item from "../../components/Item";
 
+import { getUserItems } from "../../services/item.service";
+
 import "./style.scss";
 
 function Items() {
@@ -23,27 +25,26 @@ function Items() {
 
   useEffect(() => {
     if (currentUser) {
-      axios
-        .get(`${process.env.API_URL}/items/user/${currentUser.userInfo.id}`)
-        .then((res) => {
-          setUserItems(res.data);
-        });
+      getUserItems(currentUser.userInfo.id).then((res) => {
+        setUserItems(res.data);
+      });
     }
   }, [currentUser]);
 
   const addItem = () => {
     navigate("/additem");
-  }
+  };
 
   return (
     <div className="page-container">
       <div className="header">
-      <h1>Objets</h1>
-      <Button type="primary" className="add-button" onClick={addItem}>Ajouter un objet</Button>
+        <h1>Objets</h1>
+        <Button type="primary" className="add-button" onClick={addItem}>
+          Ajouter un objet
+        </Button>
       </div>
       {currentUser ? (
         <div className="content">
-          
           <Divider orientation="left">Objets non échangés</Divider>
           <List
             grid={{
@@ -57,7 +58,7 @@ function Items() {
             dataSource={userItems.filter((item) => !item.traded)}
             renderItem={(item) => (
               <List.Item key={item.id}>
-                <Item item={item} isMarket={false}/>
+                <Item item={item} isMarket={false} />
               </List.Item>
             )}
           />

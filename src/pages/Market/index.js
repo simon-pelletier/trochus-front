@@ -4,11 +4,17 @@ import { List, Select, Divider } from "antd";
 
 import Item from "../../components/Item";
 
+import useLogout from "../../hooks/useLogout";
+
 import "./style.scss";
 
+import { getPublishedItems } from "../../services/item.service";
+
 function Market() {
+  const logout = useLogout();
+
   const [loading, setLoading] = useState(true);
-  
+
   const [categories, setCategories] = useState([]);
   const [items, setItems] = useState([]);
   const [data, setData] = useState([]);
@@ -20,10 +26,15 @@ function Market() {
     axios.get(`${process.env.API_URL}/categories`).then((res) => {
       setCategories(res.data);
     });
-    axios.get(`${process.env.API_URL}/items/published`).then((res) => {
-      setItems(res.data);
-      setData(res.data);
-      setLoading(false);
+
+    getPublishedItems().then((res) => {
+        setItems(res.data);
+        setData(res.data);
+        setLoading(false);
+    }).catch((err) => {
+      if (err.response.status === 401) {
+        logout();
+      }
     });
   }, []);
 
@@ -113,7 +124,7 @@ function Market() {
           dataSource={data}
           renderItem={(item) => (
             <List.Item key={item.id}>
-              <Item item={item} isMarket={true}/>
+              <Item item={item} isMarket={true} />
             </List.Item>
           )}
         />

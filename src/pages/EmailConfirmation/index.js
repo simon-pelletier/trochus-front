@@ -13,11 +13,7 @@ function EmailConfirmation() {
     const confirmEmail = async () => {
       const token = window.location.href.split("/")[4];
 
-      await axios.get(`${process.env.API_URL}/auth/verifyemail/${token}`).then(
-        (response) => {
-          console.log("R", response.data);
-        },
-      );
+      await axios.get(`${process.env.API_URL}/auth/verifyemail/${token}`);
     };
 
     confirmEmail();
@@ -29,9 +25,6 @@ function EmailConfirmation() {
         <h1>Confirmation d'email</h1>
       </div>
       {currentUser ? (
-        //! GERER LE CAS OU L'EMAIL EST DEJA CONFIRME
-        //! GERER LE CAS OU L'EMAIL N'EST PAS CONFIRME
-        //! GERER MIEUX LA PAGE QUE CA
         <div className="content">
           <p>
             Un email de confirmation a été envoyé à l'adresse{" "}
