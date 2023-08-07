@@ -2,16 +2,18 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { Divider, List, Button } from "antd";
 
-import Item from "../../components/Item";
+import Item from "@components/Item";
 
-import { getUserItems } from "../../services/item.service";
+import useLogout from "@hooks/useLogout";
+
+import { getUserItems } from "@services/item.service";
 
 import "./style.scss";
 
 function Items() {
+  const logout = useLogout();
   const navigate = useNavigate();
   const { user: currentUser } = useSelector((state) => state.auth);
 
@@ -27,6 +29,10 @@ function Items() {
     if (currentUser) {
       getUserItems(currentUser.userInfo.id).then((res) => {
         setUserItems(res.data);
+      }).catch((err) => {
+        if (err.response.status === 401) {
+          logout();
+        }
       });
     }
   }, [currentUser]);

@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+
 import { InboxOutlined } from "@ant-design/icons";
 import {
   Button,
@@ -17,7 +18,8 @@ import {
   message,
 } from "antd";
 const { Dragger } = Upload;
-import trochusPNG from "../../../assets/images/trochus-32.png";
+
+import trochusPNG from "@assets/images/trochus-32.png";
 
 import "./style.scss";
 

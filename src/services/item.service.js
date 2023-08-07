@@ -6,7 +6,6 @@ const getPublicItems = () => {
 };
 
 const getPublishedItems = () => {
-
   return axios
     .get(`${process.env.API_URL}/items/published`, {
       headers: authHeader(),

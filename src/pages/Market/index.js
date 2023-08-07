@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { List, Select, Divider } from "antd";
 
-import Item from "../../components/Item";
+import Item from "@components/Item";
 
-import useLogout from "../../hooks/useLogout";
+import useLogout from "@hooks/useLogout";
 
 import "./style.scss";
 
-import { getPublishedItems } from "../../services/item.service";
+import { getPublishedItems } from "@services/item.service";
 
 function Market() {
   const logout = useLogout();

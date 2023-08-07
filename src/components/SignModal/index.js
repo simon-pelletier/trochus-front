@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { Modal, Checkbox, Form, Input, Button } from "antd";
 import { useSelector, useDispatch } from "react-redux";
-import { login, register } from "../../slices/auth";
+import { login, register } from "@slices/auth";
 
 import "./style.scss";
 

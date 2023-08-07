@@ -13,9 +13,9 @@ import { useNavigate, useLocation } from "react-router-dom";
 import SignModal from "../SignModal";
 
 import { useSelector } from "react-redux";
-import useLogout from "../../hooks/useLogout";
+import useLogout from "@hooks/useLogout";
 
-import logo from "../../assets/favicons/favicon-32x32-default.png";
+import logo from "@assets/favicons/favicon-32x32-default.png";
 
 import "./style.scss";
 

@@ -2,18 +2,18 @@ import React from "react";
 
 import { MainLayout } from "src/layouts";
 
-import Home from "src/pages/Home";
-import Profil from "src/pages/Profil";
-import Items from "src/pages/Items";
-import Market from "src/pages/Market";
+import Home from "@pages/Home";
+import Profil from "@pages/Profil";
+import Items from "@pages/Items";
+import Market from "@pages/Market";
 
-import AddItem from "src/pages/Items/AddItem";
+import AddItem from "@pages/Items/AddItem";
 
-import EmailConfirmation from "../pages/EmailConfirmation";
+import EmailConfirmation from "@pages/EmailConfirmation";
 
-import Unauthorized from "src/pages/Error/Unauthorized";
-import Forbidden from "src/pages/Error/Forbidden";
-import NotFound from "src/pages/Error/NotFound";
+import Unauthorized from "@pages/Error/Unauthorized";
+import Forbidden from "@pages/Error/Forbidden";
+import NotFound from "@pages/Error/NotFound";
 
 export default [
   {
